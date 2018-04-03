@@ -1,0 +1,49 @@
+TASK info.plux.pluxapi.sampleapp id=240
+  ACTIVITY info.plux.pluxapi.sampleapp/.ScanActivity 3869c64 pid=14796
+    Local Activity e2d4723 State:
+      mResumed=true mStopped=false mFinished=false
+      mChangingConfigurations=false
+      mCurrentConfig={0 1.0 showBtnBg = 0 ?mcc?mnc pt_BR ldltr sw360dp w360dp h616dp 480dpi nrml long port finger -keyb/v/h -nav/h mkbd/? s.4}
+      mMultiWindowStyle=MultiWindowStyle{type=0, zone=ZONE_UNKNOWN, option=0x00000000, bounds=null, isNull=false, isolatedCenterPoint=Point(0, 0), scale=0.0, specificTaskId=-1}
+      mLoadersStarted=true
+      FragmentManager misc state:
+        mHost=android.app.Activity$HostCallbacks@c668588
+        mContainer=android.app.Activity$HostCallbacks@c668588
+        mCurState=5 mStateSaved=false mDestroyed=false
+    ViewRoot:
+      mAdded=true mRemoved=false
+      mConsumeBatchedInputScheduled=false
+      mConsumeBatchedInputImmediatelyScheduled=false
+      mPendingInputEventCount=0
+      mProcessInputEventsScheduled=false
+      mTraversalScheduled=false
+      android.view.ViewRootImpl$NativePreImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$ImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$NativePostImeInputStage: mQueueLength=0
+    Choreographer:
+      mFrameScheduled=false
+      mLastFrameTime=678622 (40191 ms ago)
+    View Hierarchy:
+      com.android.internal.policy.PhoneWindow$DecorView{8d6c75a V.E...... R....... 0,0-1080,1920}
+        com.android.internal.widget.ActionBarOverlayLayout{2d1a25e V.ED..... ........ 0,0-1080,1920 #1020481 android:id/decor_content_parent}
+          android.widget.FrameLayout{fbfbf8 V.E...... ........ 0,216-1080,1920 #1020002 android:id/content}
+            android.widget.ListView{e4f6e37 VFED.VC.. .F...... 0,0-1080,1704 #102000a android:id/list}
+              android.widget.LinearLayout{81a0109 V.E...... ........ 0,0-1080,146}
+                android.widget.TextView{5d05e1a V.ED..... ........ 0,0-1080,97 #7f0b006d app:id/device_name}
+                android.widget.TextView{88641e6 V.ED..... ........ 0,97-1080,146 #7f0b006e app:id/device_address}
+          com.android.internal.widget.ActionBarContainer{7225327 V.ED..... ........ 0,72-1080,216 #1020482 android:id/action_bar_container}
+            com.android.internal.widget.ActionBarView{bd6fac3 V.E...... ........ 0,0-1080,144 #1020483 android:id/action_bar}
+              android.widget.LinearLayout{761a7be V.....C.. ........ 25,0-698,144}
+                com.android.internal.widget.ActionBarView$HomeView{c0e2f6c V.E...... ........ 0,0-120,144}
+                  android.widget.ImageView{88c81ca G.ED..... ......I. 0,0-0,0 #1020047 android:id/up}
+                  android.widget.ImageView{14e43b1 V.ED..... ........ 12,24-108,120 #102002c android:id/home}
+                android.widget.LinearLayout{2d8f096 V.E...... ........ 120,35-673,108}
+                  android.widget.TextView{9b05417 V.ED..... ........ 0,0-529,73 #102035f android:id/action_bar_title}
+                  android.widget.TextView{a7d0004 G.ED..... ......I. 0,0-0,0 #1020360 android:id/action_bar_subtitle}
+              android.widget.ActionMenuView{45269ed V.ED..... ........ 742,0-1080,144}
+                com.android.internal.view.menu.ActionMenuItemView{f5c1ab3 VFED..CL. ........ 0,0-168,144 #7f0b007c app:id/menu_refresh}
+                com.android.internal.view.menu.ActionMenuItemView{257c6e VFED..CL. ........ 170,0-338,144 #7f0b007d app:id/menu_scan}
+            com.android.internal.widget.ActionBarContextView{6f3af0f G.E...... ......ID 0,0-0,0 #1020484 android:id/action_context_bar}
+          com.android.internal.widget.ActionBarContainer{cc62d2b G.ED..... ......ID 0,0-0,0 #1020485 android:id/split_action_bar}
+    Looper (main, tid 1) {3867b21}
+      (Total messages: 0, polling=false, quitting=false)

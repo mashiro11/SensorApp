@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    //buildToolsVersion '23.0.3'
+    defaultConfig {
+        applicationId "info.plux.pluxapi.sampleapp"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+}
+
+repositories{
+    maven{ url "https://jitpack.io" }
+    google()
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile project(':api')
+}
+
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+    }
+}
