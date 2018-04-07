@@ -117,7 +117,6 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
     private float alpha = 0.25f;
 
     //MEU CODIGO
-    private List saidaTexto;
     private String ipString;
     private String portString;
     private InetAddress serverAddr;
@@ -149,10 +148,12 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
     //private static final int E-- = 5;
     private static final int SENSORS = 6;
 
+    private CheckBox[] sensorsSelection = new CheckBox[6];
+
     //Always take only last MAX_POINTS points to show on graph
     int MAX_POINTS = 20;
     private ArrayList<ArrayList<DataPoint>> seriesPoints = new ArrayList<>();
-    private ArrayList<PointsGraphSeries<DataPoint>> series = new ArrayList<>();
+    private ArrayList<LineGraphSeries<DataPoint>> series = new ArrayList<>();
     private GraphView graph;
     private int frameCounter = 0;
 
@@ -180,15 +181,13 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
         setUIElements();
         radio100Button.setChecked(true);
         radio10Button.setChecked(false);
-        saidaTexto = new LinkedList();
 
         //JAVA USA PASS-BY-VALUE
         graph = (GraphView) findViewById(R.id.graph);
         for(int i = 0; i < SENSORS; i ++) {
             seriesPoints.add(new ArrayList<DataPoint>());
-            series.add( new PointsGraphSeries<DataPoint>());
-            series.get(i).setSize(18-3*i);
-            //graph.addSeries(series.get(i));
+            series.add( new LineGraphSeries<DataPoint>());
+            series.get(i).setThickness(18-3*i); //setSize(18-3*i);//pointsgraphseries
         }
         series.get(0).setColor(Color.BLUE);
         series.get(1).setColor(Color.GREEN);
@@ -215,7 +214,6 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                   //MEU CODIGO
                   cal = Calendar.getInstance();
                   sdf = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
-                  saidaTexto.add(frame.toString() + "\n");
               }
           }
         };
@@ -303,6 +301,17 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
         //pwmButton = (Button) findViewById(R.id.pwm_button);
         resultsTextView = (TextView) findViewById(R.id.results_text_view);
         casualButton = (CheckBox) findViewById(R.id.casual);
+        for(int i = 0; i < SENSORS; i++) {
+            switch (i) {
+                case 0: sensorsSelection[i] = (CheckBox) findViewById(R.id.EMG_checkbox); break;
+                case 1: sensorsSelection[i] = (CheckBox) findViewById(R.id.ECG_checkbox); break;
+                case 2: sensorsSelection[i] = (CheckBox) findViewById(R.id.EDA_checkbox); break;
+                case 3: sensorsSelection[i] = (CheckBox) findViewById(R.id.EEG_checkbox); break;
+                case 4: sensorsSelection[i] = (CheckBox) findViewById(R.id.E___checkbox); break;
+                case 5: sensorsSelection[i] = (CheckBox) findViewById(R.id.E__checkbox); break;
+
+            }
+        }
     }
 
     private void setUIElements(){
@@ -388,6 +397,12 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                         stopButton.setVisibility(View.GONE);
                         resultsTextView.setVisibility(View.GONE);
 
+                        stopButton.setVisibility(View.GONE);
+                        for(int i = 0; i < SENSORS; i++){
+                            sensorsSelection[i].setVisibility(View.GONE);
+                        }
+                        graph.setVisibility(View.GONE);
+
                         break;
                     case ACQUISITION_TRYING:
                         break;
@@ -409,6 +424,10 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
 
                         stopButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.black, null));
                         stopButton.setVisibility(View.VISIBLE);
+                        for(int i = 0; i < SENSORS; i++){
+                            sensorsSelection[i].setVisibility(View.VISIBLE);
+                        }
+
                         break;
                     case ACQUISITION_STOPPING:
                         break;
@@ -416,7 +435,6 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                         configurationButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.black, null));
                         configurationButton.setVisibility(View.VISIBLE);
                         connectButton.setVisibility(View.VISIBLE);
-                        test_connectionButton.setVisibility(View.VISIBLE);
 
                         disconnectButton.setVisibility(View.GONE);
                         startButton.setVisibility(View.GONE);
@@ -440,52 +458,57 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                         /*
                             Chart input
                          */
+                        if(frameCounter < 50){
+                            frameCounter++;
+                        }else {
+                            Log.d(debugStartButton, "Aplicacao no grafico");
+                            if (seriesPoints.get(0).size() < MAX_POINTS) {
+                                Log.d(debugStartButton, "Acumulando pontos");
+                                Log.d(debugStartButton, "Nova entrada: " + dataVector);
+                                int lastComa = 0;
+                                for (int i = 0; i < SENSORS; i++) {
+                                    int index = dataVector.indexOf(',', lastComa);
+                                    index = (index == -1) ? dataVector.length() : index;
+                                    String sValue = (index == dataVector.length()) ?
+                                            dataVector.substring(lastComa) :
+                                            dataVector.substring(lastComa, index);
+                                    int value = Integer.parseInt(sValue);
+                                    lastComa = index + 2;
 
-                        if(seriesPoints.get(0).size() < MAX_POINTS){
-                            Log.d(debugStartButton, "Iniciando aplicacao no grafico");
-                            Log.d(debugStartButton, "Nova entrada: " + dataVector);
-                            int lastComa = 0;
-                            for (int i = 0; i < SENSORS; i++) {
-                                int index = dataVector.indexOf(',', lastComa);
-                                index = (index == -1) ? dataVector.length() : index;
-                                String sValue = (index == dataVector.length()) ?
-                                        dataVector.substring(lastComa) :
-                                        dataVector.substring(lastComa, index);
-                                int value = Integer.parseInt(sValue);
-                                lastComa = index + 2;
+                                    int datapoints = seriesPoints.get(i).size();
 
-                                int datapoints = seriesPoints.get(i).size();
+                                    //Log.d(debugStartButton, "Datapoints on seriesPoints[" + i + "].size() antes: " + datapoints);
+                                    datapoints++;
+                                    //Log.d(debugStartButton,"seriesPoints.get(i).add(" + i + ").add(new DataPoint((float) " + datapoints + ", (float) " + value + "))");
+                                    seriesPoints.get(i).add(new DataPoint((float) datapoints, (float) value));
 
-                                Log.d(debugStartButton, "Datapoints on seriesPoints[" + i + "].size() antes: " + datapoints);
-                                datapoints++;
-                                Log.d(debugStartButton,
-                                        "seriesPoints.get(i).add(" + i + ").add(new DataPoint((float) " + datapoints + ", (float) " + value + "))");
-                                seriesPoints.get(i).add(new DataPoint((float) datapoints, (float) value));
+                                    //DEBUG
+                                    datapoints = seriesPoints.get(i).size();
+                                    //Log.d(debugStartButton, "Datapoints on seriesPoints[" + i + "].size() depois: " + datapoints);
+                                }
+                            } else {
+                                frameCounter = 0;
+                                Log.d(debugStartButton, "Renderizando gráfico");
+                                graph.removeAllSeries();
+                                for (int i = 0; i < SENSORS; i++) {
+                                    if(!sensorsSelection[i].isChecked()) continue;
 
-                                //DEBUG
-                                datapoints = seriesPoints.get(i).size();
-                                Log.d(debugStartButton, "Datapoints on seriesPoints[" + i + "].size() depois: " + datapoints);
+                                    int realSize = seriesPoints.get(i).size();//how many points already have
+                                    int maxElements = (realSize > MAX_POINTS) ? MAX_POINTS : realSize;//max
+                                    DataPoint[] points = new DataPoint[maxElements];
+
+                                    seriesPoints.get(i).subList(realSize - maxElements, realSize).toArray(points);
+                                    //Log.d(debugStartButton, "points.lenght: " + points.length);
+                                    series.get(i).resetData(points);
+                                    //Log.d(debugStartButton, "Data reseted");
+                                    graph.addSeries(series.get(i));
+                                    //Log.d(debugStartButton, "Series added");
+                                    seriesPoints.get(i).clear();
+                                }
                             }
-                        }else{
-                            Log.d(debugStartButton, "Atualização do gráfico");
-                            graph.removeAllSeries();
-                            for(int i = 0; i < SENSORS; i++) {
-                                int realSize = seriesPoints.get(i).size();//how many points already have
-                                int maxElements = (realSize > MAX_POINTS)? MAX_POINTS : realSize;//max
-                                DataPoint[] points = new DataPoint[maxElements];
-                                Log.d(debugStartButton, "realSize: " + realSize);
-                                Log.d(debugStartButton, "maxElements: " + maxElements);
-
-                                seriesPoints.get(i).subList(realSize - maxElements, realSize).toArray(points);
-                                Log.d(debugStartButton, "points.lenght: " + points.length);
-                                series.get(i).resetData(points);
-                                Log.d(debugStartButton, "Data reseted");
-                                graph.addSeries(series.get(i));
-                                Log.d(debugStartButton, "Series added");
-                                seriesPoints.get(i).clear();
-                            }
-                            Log.d(debugStartButton, "Atualização feita");
                         }
+                        //Chart_END
+
 
                         if(rawData.contains("-1") || rawData.contains("0, 0, 0, 0, 0, 0")){
                             Log.d(debugStartButton, "Erro no recebimento de dados!");
@@ -509,7 +532,6 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                             resultsTextView.setText(output);
                             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
                             String ready = format.format(Calendar.getInstance().getTime()) + "," + dataVector;
-                            saidaTexto.add(ready);
 
                             if (socket != null && socket.isConnected()) {
                                 //This will send current time to server
@@ -538,7 +560,6 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
 
                             String ready = format.format(Calendar.getInstance().getTime()) + "," + dataVector;
-                            saidaTexto.add(ready);
 
                             if (socket != null && socket.isConnected()) {
                                 //This will send current time to server
@@ -551,11 +572,8 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                         isBITalino2 = ((BITalinoDescription)parcelable).isBITalino2();
                         resultsTextView.setText("isBITalino2: " + isBITalino2 + "; FwVersion: " + String.valueOf(((BITalinoDescription)parcelable).getFwVersion()));
                         //MEU CODIGO
-                        saidaTexto.add(new String("isBITalino2: " + isBITalino2 + "; FwVersion: " + String.valueOf(((BITalinoDescription)parcelable).getFwVersion()) + "\n"));
                         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
                         String strAux = format.format(Calendar.getInstance().getTime());
-                        saidaTexto.add("Celphone_Time: " + strAux );
-
 
 //                        if(identifier.equals(identifierBITalino2) && bitalino2 != null){
 //                            try {
@@ -608,10 +626,10 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                     file.createNewFile();
                     FileOutputStream fOut = new FileOutputStream(file);
                     OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-                    for(int i = 0; i < saidaTexto.size();) {
+                    /*for(int i = 0; i < saidaTexto.size();) {
                         myOutWriter.append(saidaTexto.get(0).toString());
                         saidaTexto.remove(0);
-                    }
+                    }*/
 
                     myOutWriter.close();
                     fOut.close();
@@ -788,6 +806,7 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                                 ipAdressButton.setVisibility(VISIBLE);
                                 port_numberText.setVisibility(VISIBLE);
                                 port_numberButton.setVisibility(VISIBLE);
+                                test_connectionButton.setVisibility(VISIBLE);
 
                                 connectButton.setVisibility(GONE);
                                 disconnectButton.setVisibility(GONE);
@@ -801,6 +820,7 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                                 ipAdressButton.setVisibility(GONE);
                                 port_numberText.setVisibility(GONE);
                                 port_numberButton.setVisibility(GONE);
+                                test_connectionButton.setVisibility(GONE);
 
                                 connectButton.setVisibility(VISIBLE);
                                 //disconnectButton.setVisibility(VISIBLE);

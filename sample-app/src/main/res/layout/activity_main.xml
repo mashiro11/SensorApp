@@ -1,273 +1,388 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/background_light"
     android:orientation="vertical">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="30dp">
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Name:"
-                android:id="@+id/textView"
-                android:layout_weight="1"
-                android:textSize="16dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="name"
-                android:id="@+id/device_name_text_view"
-                android:layout_weight="1"
-                android:textSize="16dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:textColor="@color/material_grey_600"
-                android:textStyle="italic"/>
-    </LinearLayout>
-    <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="30dp">
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="MAC address:"
-                android:id="@+id/textView2"
-                android:layout_weight="1"
-                android:textSize="16dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="00:00:00:00:00:00"
-                android:id="@+id/mac_address_text_view"
-                android:layout_weight="1"
-                android:textSize="16dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:textColor="@color/material_grey_600"
-                android:textStyle="italic"/>
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="30dp">
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Elapsed time:"
-                android:id="@+id/textView6"
-                android:layout_weight="1"
-                android:textSize="16dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="00:00:00"
-                android:id="@+id/elapsed_time_Text_view"
-                android:layout_weight="1"
-                android:textSize="16dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:textColor="@color/material_grey_600"
-                android:textStyle="italic"/>
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="30dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="State:"
-            android:id="@+id/textView4"
-            android:layout_weight="1"
-            android:textSize="16dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="state"
-            android:id="@+id/state_text_view"
-            android:layout_weight="1"
-            android:textSize="16dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:textColor="@color/material_grey_600"
-            android:textStyle="italic"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="Name:"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/device_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="name"
+        android:textColor="@color/material_grey_600"
+        android:textSize="16dp"
+        android:textStyle="italic"
+        app:layout_constraintLeft_toRightOf="@id/textView"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="MAC address:"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/device_name_text_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+       />
+
+    <TextView
+        android:id="@+id/mac_address_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="00:00:00:00:00:00"
+        android:textColor="@color/material_grey_600"
+        android:textSize="16dp"
+        android:textStyle="italic"
+        app:layout_constraintLeft_toRightOf="@id/textView2"
+        app:layout_constraintTop_toBottomOf="@id/device_name_text_view"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="Elapsed time:"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        />
+
+    <TextView
+        android:id="@+id/elapsed_time_Text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="00:00:00"
+        android:textColor="@color/material_grey_600"
+        android:textSize="16dp"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@id/mac_address_text_view"
+        app:layout_constraintLeft_toRightOf="@id/textView6"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="State:"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/textView6"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/state_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="state"
+        android:textColor="@color/material_grey_600"
+        android:textSize="16dp"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@id/elapsed_time_Text_view"
+        app:layout_constraintLeft_toRightOf="@id/textView4"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <EditText
+        android:id="@+id/playerNumber"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:background="@android:color/holo_blue_dark">
+        android:layout_height="61dp"
+        android:layout_marginTop="28dp"
+        android:text="Player_1"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView4" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
+    <EditText
+        android:id="@+id/sessionNumber"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/playerNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Player_1"
-            android:textSize="20dp"
-            />
-        <EditText
-            android:id="@+id/sessionNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Session_1"
-            android:textSize="12dp"
-            />
+        android:layout_height="55dp"
+        android:text="Session_1"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/playerNumber" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:background="@android:color/holo_blue_dark">
+    <CheckBox
+        android:id="@+id/casual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Casual"
+        app:layout_constraintTop_toBottomOf="@id/state_text_view"
+        app:layout_constraintRight_toRightOf="parent"/>
 
-        </LinearLayout>
-        <CheckBox
-            android:id="@+id/casual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Casual"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Connect"
-            android:id="@+id/connect_button"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Disconnect"
-            android:textColor="@color/buttonUnactive"
-            android:id="@+id/disconnect_button"
-            android:visibility="gone"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Start"
-            android:id="@+id/start_button"
-            android:textColor="@color/buttonUnactive"
-            android:visibility="gone"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="StopS"
-            android:id="@+id/stop_button"
-            android:textColor="@color/buttonUnactive"
-            android:visibility="gone"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/test_connection"
-            android:text="Test Connection"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/configurations"
-            android:text="Open Configurations"/>
-        <RadioButton
-            android:visibility="gone"
-            android:id="@+id/radio10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10Hz"
-            >
-        </RadioButton>
-        <RadioButton
-            android:visibility="gone"
-            android:id="@+id/radio100"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100Hz">
-        </RadioButton>
+    <!--Not connected state-->
+    <Button
+        android:id="@+id/connect_button"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:text="Connect"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sessionNumber" />
 
-        <EditText
-            android:visibility="gone"
-            android:layout_width="193dp"
-            android:layout_height="40dp"
-            android:id="@+id/ip_text"
-            android:cursorVisible="false"
-            android:layout_gravity="center"
-            android:max="62"
-            android:progress="20"/>
+    <Button
+        android:id="@+id/configurations"
+        android:layout_width="match_parent"
+        android:layout_height="98dp"
+        android:text="Open Configurations"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/connect_button" />
 
-        <Button
-            android:visibility="gone"
-            android:id="@+id/set_ip_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Confirm new IP" />
+    <!--Connected state-->
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="match_parent"
+        android:layout_height="91dp"
+        android:text="Start"
+        android:textColor="@color/buttonUnactive"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sessionNumber"
+        android:visibility="gone"/>
 
-        <EditText
-            android:visibility="gone"
-            android:layout_width="193dp"
-            android:layout_height="40dp"
-            android:id="@+id/port_text"
-            android:cursorVisible="false"
-            android:layout_gravity="center"
-            android:progress="100"
-            android:max="254"/>
+    <Button
+        android:id="@+id/disconnect_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Disconnect"
+        android:textColor="@color/buttonUnactive"
+        app:layout_constraintTop_toBottomOf="@id/start_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        />
 
-        <Button
-            android:visibility="gone"
-            android:id="@+id/set_port_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Confirm new Port" />
-        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Results:"
-            android:layout_weight="1" android:textSize="16dp"
-            android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:visibility="gone"/>
-        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="..."
-            android:id="@+id/results_text_view" android:layout_weight="1" android:textSize="16dp"
-            android:gravity="center_vertical" android:paddingLeft="10dp"
-            android:textColor="@color/material_grey_600"
-            android:textStyle="italic"
-            android:visibility="gone"/>
+    <!-- In Ackisition state -->
+    <Button
+        android:id="@+id/stop_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:textColor="@color/buttonUnactive"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/start_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+         />
 
-        <com.jjoe64.graphview.GraphView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/graph"
-            android:visibility="gone"></com.jjoe64.graphview.GraphView>
+    <CheckBox
+        android:id="@+id/EMG_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EMG"
+        android:checked="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/stop_button"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
-        <!--<LinearLayout
+    <CheckBox
+        android:id="@+id/ECG_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ECG"
+        android:checked="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/stop_button"
+        app:layout_constraintLeft_toRightOf="@id/EMG_checkbox"/>
+
+    <CheckBox
+        android:id="@+id/EDA_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EDA"
+        android:checked="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/stop_button"
+        app:layout_constraintLeft_toRightOf="@id/ECG_checkbox"/>
+
+    <CheckBox
+        android:id="@+id/EEG_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EEG"
+        android:checked="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/stop_button"
+        app:layout_constraintLeft_toRightOf="@id/EDA_checkbox"/>
+
+    <CheckBox
+        android:id="@+id/E___checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E__"
+        android:checked="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/stop_button"
+        app:layout_constraintLeft_toRightOf="@id/EEG_checkbox"/>
+
+    <CheckBox
+        android:id="@+id/E__checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E-"
+        android:checked="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/stop_button"
+        app:layout_constraintLeft_toRightOf="@id/E___checkbox"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EMG_checkbox"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0.943"
+        tools:layout_editor_absoluteX="0dp"></com.jjoe64.graphview.GraphView>
+
+
+    <!-- Configurations State -->
+    <RadioButton
+        android:id="@+id/radio10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10Hz"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/configurations"
+        app:layout_constraintLeft_toLeftOf="parent"></RadioButton>
+
+    <RadioButton
+        android:id="@+id/radio100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100Hz"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/radio10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        ></RadioButton>
+
+    <EditText
+        android:id="@+id/ip_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:max="62"
+        android:progress="20"
+        android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="@id/radio10"
+        app:layout_constraintTop_toBottomOf="@id/configurations"
+        app:layout_constraintRight_toLeftOf="@id/set_ip_button"
+        />
+
+    <Button
+        android:id="@+id/set_ip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm new IP"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/configurations"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/port_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:max="254"
+        android:progress="100"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/ip_text"
+        app:layout_constraintLeft_toRightOf="@id/radio100"
+        app:layout_constraintRight_toLeftOf="@id/set_port_button"
+        />
+
+    <Button
+        android:id="@+id/set_port_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm new Port"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/set_ip_button"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <Button
+        android:id="@+id/test_connection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Connection"
+        app:layout_constraintTop_toBottomOf="@id/set_port_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="Results:"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/results_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="..."
+        android:textColor="@color/material_grey_600"
+        android:textSize="16dp"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
+
+    <!--<LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -338,5 +453,5 @@
                 android:layout_weight="1"/>
 
         </LinearLayout>-->
-    </LinearLayout>
-</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
