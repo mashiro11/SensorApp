@@ -261,11 +261,11 @@
             android:textStyle="italic"
             android:visibility="gone"/>
 
-        <com.github.mikephil.charting.charts.LineChart
+        <com.jjoe64.graphview.GraphView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/chart"
-            android:visibility="gone"></com.github.mikephil.charting.charts.LineChart>
+            android:id="@+id/graph"
+            android:visibility="gone"></com.jjoe64.graphview.GraphView>
 
         <!--<LinearLayout
                 android:orientation="horizontal"

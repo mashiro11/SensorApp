@@ -22,8 +22,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import info.plux.pluxapi.Communication;
 import info.plux.pluxapi.bitalino.*;
@@ -42,6 +44,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -133,7 +137,24 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
     private String debugStartButton = "startButton";
     private String debugStopButton = "stopButton";
     private CheckBox casualButton;
-    private LineChart chart;
+
+    /*
+        Chart initiation
+     */
+    //private static final int EMG = 0;
+    //private static final int ECG = 1;
+    private static final int EDA = 2;
+    //private static final int EEG = 3;
+    //private static final int E-- = 4;
+    //private static final int E-- = 5;
+    private static final int SENSORS = 6;
+
+    //Always take only last MAX_POINTS points to show on graph
+    int MAX_POINTS = 20;
+    private ArrayList<ArrayList<DataPoint>> seriesPoints = new ArrayList<>();
+    private ArrayList<PointsGraphSeries<DataPoint>> series = new ArrayList<>();
+    private GraphView graph;
+    private int frameCounter = 0;
 
     /*
      * Test with 2 device
@@ -161,7 +182,25 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
         radio10Button.setChecked(false);
         saidaTexto = new LinkedList();
 
-        ArrayList<Entry> yValues = new ArrayList<>();
+        //JAVA USA PASS-BY-VALUE
+        graph = (GraphView) findViewById(R.id.graph);
+        for(int i = 0; i < SENSORS; i ++) {
+            seriesPoints.add(new ArrayList<DataPoint>());
+            series.add( new PointsGraphSeries<DataPoint>());
+            series.get(i).setSize(18-3*i);
+            //graph.addSeries(series.get(i));
+        }
+        series.get(0).setColor(Color.BLUE);
+        series.get(1).setColor(Color.GREEN);
+        series.get(EDA).setColor(Color.RED);
+        series.get(3).setColor(Color.DKGRAY);
+        series.get(4).setColor(Color.MAGENTA);
+        series.get(5).setColor(Color.YELLOW);
+        graph.setScaleY(1f);
+        graph.setScaleX(1f);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(MAX_POINTS);
 
         handler = new Handler(getMainLooper()){
           @Override
@@ -264,13 +303,9 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
         //pwmButton = (Button) findViewById(R.id.pwm_button);
         resultsTextView = (TextView) findViewById(R.id.results_text_view);
         casualButton = (CheckBox) findViewById(R.id.casual);
-        chart = (LineChart) findViewById(R.id.chart);
     }
 
     private void setUIElements(){
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-
         if(bluetoothDevice.getName() == null){
             nameTextView.setText("BITalino");
         }
@@ -358,7 +393,8 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                         break;
                     case ACQUISITION_OK:
                         Log.d(debugStartButton, "State changed: ACQUISITION_OK");
-                        chart.setVisibility(View.VISIBLE);
+                        graph.setVisibility(View.VISIBLE);
+                        Log.d(debugStartButton, "Chart visible");
                         startPressed = true;
                         playerText.setFocusableInTouchMode(false);
                         sessionText.setFocusableInTouchMode(false);
@@ -384,7 +420,7 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
 
                         disconnectButton.setVisibility(View.GONE);
                         startButton.setVisibility(View.GONE);
-                        chart.setVisibility(View.GONE);
+                        graph.setVisibility(View.GONE);
                         break;
                     case ENDED:
                         break;
@@ -397,9 +433,60 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                     Parcelable parcelable = intent.getParcelableExtra(EXTRA_DATA);
                     if(parcelable.getClass().equals(BITalinoFrame.class)){ //BITalino
                         String rawData = parcelable.toString();
-                        Log.d(debugStartButton, rawData);
+                        Log.d(debugStartButton, "Raw data: " + rawData);
                         String aux = rawData;
+                        //dataVector has only data separeted by comas
                         String dataVector = aux.substring( aux.indexOf('[')+1 , aux.indexOf(']') );
+                        /*
+                            Chart input
+                         */
+
+                        if(seriesPoints.get(0).size() < MAX_POINTS){
+                            Log.d(debugStartButton, "Iniciando aplicacao no grafico");
+                            Log.d(debugStartButton, "Nova entrada: " + dataVector);
+                            int lastComa = 0;
+                            for (int i = 0; i < SENSORS; i++) {
+                                int index = dataVector.indexOf(',', lastComa);
+                                index = (index == -1) ? dataVector.length() : index;
+                                String sValue = (index == dataVector.length()) ?
+                                        dataVector.substring(lastComa) :
+                                        dataVector.substring(lastComa, index);
+                                int value = Integer.parseInt(sValue);
+                                lastComa = index + 2;
+
+                                int datapoints = seriesPoints.get(i).size();
+
+                                Log.d(debugStartButton, "Datapoints on seriesPoints[" + i + "].size() antes: " + datapoints);
+                                datapoints++;
+                                Log.d(debugStartButton,
+                                        "seriesPoints.get(i).add(" + i + ").add(new DataPoint((float) " + datapoints + ", (float) " + value + "))");
+                                seriesPoints.get(i).add(new DataPoint((float) datapoints, (float) value));
+
+                                //DEBUG
+                                datapoints = seriesPoints.get(i).size();
+                                Log.d(debugStartButton, "Datapoints on seriesPoints[" + i + "].size() depois: " + datapoints);
+                            }
+                        }else{
+                            Log.d(debugStartButton, "Atualização do gráfico");
+                            graph.removeAllSeries();
+                            for(int i = 0; i < SENSORS; i++) {
+                                int realSize = seriesPoints.get(i).size();//how many points already have
+                                int maxElements = (realSize > MAX_POINTS)? MAX_POINTS : realSize;//max
+                                DataPoint[] points = new DataPoint[maxElements];
+                                Log.d(debugStartButton, "realSize: " + realSize);
+                                Log.d(debugStartButton, "maxElements: " + maxElements);
+
+                                seriesPoints.get(i).subList(realSize - maxElements, realSize).toArray(points);
+                                Log.d(debugStartButton, "points.lenght: " + points.length);
+                                series.get(i).resetData(points);
+                                Log.d(debugStartButton, "Data reseted");
+                                graph.addSeries(series.get(i));
+                                Log.d(debugStartButton, "Series added");
+                                seriesPoints.get(i).clear();
+                            }
+                            Log.d(debugStartButton, "Atualização feita");
+                        }
+
                         if(rawData.contains("-1") || rawData.contains("0, 0, 0, 0, 0, 0")){
                             Log.d(debugStartButton, "Erro no recebimento de dados!");
                             if(!resultsTextView.getText().toString().contains("error")) {
@@ -649,6 +736,9 @@ public class DeviceActivity extends FragmentActivity implements OnBITalinoDataAv
                         }
                         break;
                     case R.id.stop_button:
+                        for(int i = 0; i < 6; i++) {
+                            series.get(i).resetData(new DataPoint[]{});
+                        }
                         Log.d(debugStopButton, "stop pressed");
                         if(connectPressed && startPressed) {
 

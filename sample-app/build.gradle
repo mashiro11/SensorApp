@@ -21,14 +21,13 @@ android {
 }
 
 repositories{
-    maven{ url "https://jitpack.io" }
     google()
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.jjoe64:graphview:4.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile project(':api')
